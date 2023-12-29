@@ -495,6 +495,20 @@ class EC2AuthManager:
             ],
         )
 
+        # Allow ICMP Pings
+        self.ec2_client.authorize_security_group_ingress(
+            GroupId=group_id,
+            IpPermissions=[
+                {
+                    'FromPort': -1,
+                    'ToPort': -1,
+                    'IpProtocol': 'icmp',
+                    'UserIdGroupPairs': [{'GroupId': manager_host_id},
+                    {'GroupId': proxy_host_id}]
+                },
+            ],
+        )
+
         # Allow outbound traffic to anywhere
         self.ec2_client.authorize_security_group_egress(
             GroupId=group_id,

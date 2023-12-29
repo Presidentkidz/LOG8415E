@@ -123,6 +123,7 @@ class EC2InstancesManager:
 if __name__ == "__main__":
     ec2_manager = EC2InstancesManager()
     
+    # Modify the security groups rules of every group
     ec2_manager.auth_manager.modify_security_group_standalone(ec2_manager.standalone_security_group_id)
     ec2_manager.auth_manager.modify_security_group_gatekeeper(ec2_manager.gatekeeper_security_group_id)
     ec2_manager.auth_manager.modify_security_group_trusted_host(ec2_manager.trusted_host_security_group_id)
@@ -130,6 +131,7 @@ if __name__ == "__main__":
     ec2_manager.auth_manager.modify_security_group_manager(ec2_manager.manager_security_group_id)
     ec2_manager.auth_manager.modify_security_group_worker(ec2_manager.worker_security_group_id)
 
+    # Create the instances needed
     ec2_manager.create_instances('standalone', 't2.micro', ec2_manager.standalone_key_pair_name, ec2_manager.standalone_security_group_id, 1)
     ec2_manager.create_instances('gatekeeper', 't2.large', ec2_manager.gatekeeper_key_pair_name, ec2_manager.gatekeeper_security_group_id, 1)
     ec2_manager.create_instances('trusted_host', 't2.large', ec2_manager.trusted_host_key_pair_name, ec2_manager.trusted_host_security_group_id, 1)
@@ -137,4 +139,5 @@ if __name__ == "__main__":
     ec2_manager.create_instances('manager', 't2.micro', ec2_manager.manager_key_pair_name, ec2_manager.manager_security_group_id, 1)
     ec2_manager.create_instances('worker', 't2.micro', ec2_manager.worker_key_pair_name, ec2_manager.worker_security_group_id, 3)
 
+    # Save the instances data to CSV
     ec2_manager.saveInstancesToCSV()
